@@ -75,7 +75,12 @@ contract CloudFunding {
         }
     }
 
-    // function getDonators() {}
+    // 특정 캠페인의 기부자 목록 및 기부 금액을 조회하는 함수
+    function getDonators(
+        uint256 _id
+    ) public view returns (address[] memory, uint256[] memory) {
+        // 주어진 캠페인 ID를 사용하여 해당 캠페인의 기부자 목록과 기부 금액을 반환
+        return (campaigns[_id].donators, campaigns[_id].donations);
+    }
 
-    // function getCampaigns() {}
 }
