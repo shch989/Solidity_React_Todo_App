@@ -51,7 +51,29 @@ contract CloudFunding {
         return numberOfCampaigns - 1;
     }
 
-    // function donateToCampaign() {}
+    // 캠페인에 기부하는 함수
+    function donateToCampaign(uint256 _id) public payable {
+        // 메시지의 Ether 값 저장
+        uint256 amount = msg.value;
+
+        // 주어진 캠페인 ID를 사용하여 캠페인 구조체에 접근
+        Campaign storage campaign = campaigns[_id];
+
+        // 메시지 발신자 (기부자)의 주소를 캠페인의 기부자 목록에 추가
+        campaign.donators.push(msg.sender);
+
+        // 기부 금액을 캠페인의 기부 금액 목록에 추가
+        campaign.donations.push(amount);
+
+        // 캠페인 소유자에게 Ether를 전송
+        (bool sent, ) = payable(campaign.owner).call{value: amount}('');
+
+        // Ether 전송이 성공한 경우
+        if (sent) {
+            // 캠페인의 총 모금액을 증가
+            campaign.amountCollected = campaign.amountCollected + amount;
+        }
+    }
 
     // function getDonators() {}
 
