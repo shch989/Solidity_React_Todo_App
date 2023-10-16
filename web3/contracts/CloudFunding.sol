@@ -83,4 +83,21 @@ contract CloudFunding {
         return (campaigns[_id].donators, campaigns[_id].donations);
     }
 
+    // 모든 캠페인 정보를 조회하는 함수
+    function getCampaigns() public view returns (Campaign[] memory) {
+        // 모든 캠페인을 저장할 배열을 생성, 크기는 캠페인의 총 수인 numberOfCampaigns와 같습니다.
+        Campaign[] memory allCampaigns = new Campaign[](numberOfCampaigns);
+
+        // 모든 캠페인 정보를 반복하여 가져와서 배열에 저장
+        for (uint i = 0; i < numberOfCampaigns; i++) {
+            // campaigns 맵에서 캠페인 정보를 가져와서 item에 할당
+            Campaign storage item = campaigns[i];
+
+            // allCampaigns 배열에 캠페인 정보를 추가
+            allCampaigns[i] = item;
+        }
+
+        // 모든 캠페인 정보가 담긴 배열을 반환
+        return allCampaigns;
+    }
 }
